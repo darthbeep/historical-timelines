@@ -16,8 +16,8 @@ class Month(Enum):
 
 
 class Era(Enum):
-    BCE = 1
-    CE = 2
+    BCE = -1
+    CE = 1
 
 class HistoricalDate:
     year: int
@@ -38,19 +38,49 @@ class HistoricalDate:
             return "{}, {} {}".format(self.month.name, self.year, self.era.name)
         return "{} {}".format(self.year, self.era.name)
 
+    def __lt__(self, other):
+        year = self.get_adjudged_year(self.year, self.era)
+        other_year = self.get_adjudged_year(other.year, other.era)
+        if year != other_year:
+            return year < other_year
+        if not self.month and not other.month:
+            return False
+        if self.month and not other.month:
+            return False
+        if not self.month and other.month:
+            return True
+        if self.month != other.month:
+            return self.month.value < other.month.value
+        if not self.day and not other.day:
+            return False
+        if self.day and not other.day:
+            return False
+        if not self.day and other.day:
+            return True
+        return self.day < other.day
+
     @staticmethod
-    def assign_month(month):
+    def assign_month(month: int) -> Month:
         if not month:
             return None
         if type(month) is int and month > 0 and month < 13:
             return Month(month)
         return None
 
+    @staticmethod
+    def get_adjudged_year(year: int, era: Era) -> int:
+        if era is Era.BCE:
+            return year * -1
+        elif era is Era.CE:
+            return year
+
+
 def testDate():
-    h = HistoricalDate(1, 2, 3, 2)
-    i = HistoricalDate(2)
-    j = HistoricalDate(3, 12, 3)
-    print(h, i, j)
+    h = HistoricalDate(1, 8, 3, 1)
+    i = HistoricalDate(1, day=7, era=1)
+    j = HistoricalDate(1, 8, 2)
+    a = sorted([h, i, j])
+    print(a[0], a[1], a[2])
 
 if __name__ == "__main__":
     testDate()

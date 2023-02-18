@@ -28,14 +28,17 @@ class HistoricalEvent:
 
         return ret
 
+    def __lt__(self, other):
+        return self.start < other.start
+
 def testEvent():
-    h = HistoricalDate(1, 2, 3, 2)
-    i = HistoricalDate(2)
+    h = HistoricalDate(1, 2, 3, -1)
+    i = HistoricalDate(2, era=-1)
     j = HistoricalDate(3, 12, 3)
 
     e = HistoricalEvent("a", "b", h)
     f = HistoricalEvent("c", "d", i, j)
-    print(e, f)
+    print(e < f)
 
 if __name__ == "__main__":
     testEvent()
