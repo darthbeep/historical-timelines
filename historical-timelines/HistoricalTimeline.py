@@ -1,4 +1,3 @@
-from HistoricalDate import HistoricalDate
 from HistoricalEvent import HistoricalEvent
 
 class HistoricalTimeline:
@@ -42,6 +41,23 @@ class HistoricalTimeline:
         self.events.sort()
         self.periods.sort()
 
+    def collision_sort(self):
+        pds = []
+        if len(self.periods) == 0:
+            return pds
+        for period in self.periods:
+            placed = False
+            for i in range(len(pds)):
+                if period.start > pds[i][-1].end:
+                    pds[i].append(period)
+                    placed = True
+                    break
+            if not placed:
+                pds.append([period])
+
+        return pds
+        
+
     def populate_random_timeline(self, N = 10):
         events = []
         for _ in range(N):
@@ -54,6 +70,7 @@ def testTimeline():
     r.populate_random_timeline()
     r.sort()
     print(r)
+    print(r.collision_sort())
 
 if __name__ == "__main__":
     testTimeline()

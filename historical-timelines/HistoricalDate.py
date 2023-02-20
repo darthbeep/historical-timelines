@@ -39,7 +39,7 @@ class HistoricalDate:
             return "{}, {} {}".format(self.month.name, self.year, self.era.name)
         return "{} {}".format(self.year, self.era.name)
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         year = self.get_adjudged_year(self.year, self.era)
         other_year = self.get_adjudged_year(other.year, other.era)
         if year != other_year:
@@ -59,6 +59,52 @@ class HistoricalDate:
         if not self.day and other.day:
             return True
         return self.day < other.day
+
+    def __gt__(self, other) -> bool:
+        year = self.get_adjudged_year(self.year, self.era)
+        other_year = self.get_adjudged_year(other.year, other.era)
+        if year != other_year:
+            return year > other_year
+        if not self.month and not other.month:
+            return False
+        if self.month and not other.month:
+            return False
+        if not self.month and other.month:
+            return True
+        if self.month != other.month:
+            return self.month.value > other.month.value
+        if not self.day and not other.day:
+            return False
+        if self.day and not other.day:
+            return False
+        if not self.day and other.day:
+            return True
+        return self.day > other.day
+
+    def __le__(self, other) -> bool:
+        return not self.__gt__(other)
+    
+    def __ge__(self, other) -> bool:
+        return not self.__lt__(other)
+
+    def __eq__(self, other) -> bool:
+        year = self.get_adjudged_year(self.year, self.era)
+        other_year = self.get_adjudged_year(other.year, other.era)
+        if year != other_year:
+            return False
+        if self.month and not other.month:
+            return False
+        if not self.month and other.month:
+            return False
+        if self.month != other.month:
+            return False
+        if self.day and not other.day:
+            return False
+        if not self.day and other.day:
+            return False
+        if self.day != other.day:
+            return False
+        return True
 
     @staticmethod
     def assign_month(month: int) -> Month:

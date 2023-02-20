@@ -19,6 +19,9 @@ class HistoricalEvent:
         self.description = description
         self.start = start
         self.end = end
+        if end and end < start:
+            self.start = end
+            self.end = start
         self.event_type = EventType.Period if end else EventType.Event
 
     def __str__(self) -> str:
@@ -29,9 +32,25 @@ class HistoricalEvent:
             ret += "{} - {}".format(self.start, self.end)
 
         return ret
+    
+    # TODO: Make this a proper repr
+    def __repr__(self) -> str:
+        return str(self)
 
-    def __lt__(self, other):
+    def __lt__(self, other) -> bool:
         return self.start < other.start
+
+    def __gt__(self, other) -> bool:
+        return self.start > other.start
+
+    def __lt__(self, other) -> bool:
+        return self.start <= other.start
+
+    def __gt__(self, other) -> bool:
+        return self.start >= other.start
+    
+    def __eq__(self, other) -> bool:
+        return self.start == other.start
     
     def is_event(self) -> bool:
         return self.event_type == EventType.Event
