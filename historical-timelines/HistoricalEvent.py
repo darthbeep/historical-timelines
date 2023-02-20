@@ -30,6 +30,12 @@ class HistoricalEvent:
 
     def __lt__(self, other):
         return self.start < other.start
+    
+    def is_event(self) -> bool:
+        return self.event_type == EventType.Event
+
+    def is_period(self) -> bool:
+        return self.event_type == EventType.Period
 
 def testEvent():
     h = HistoricalDate(1, 2, 3, -1)
