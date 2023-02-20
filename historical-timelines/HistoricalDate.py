@@ -1,4 +1,5 @@
 from enum import Enum
+from random import randint
 
 class Month(Enum):
     January = 1
@@ -73,6 +74,15 @@ class HistoricalDate:
             return year * -1
         elif era is Era.CE:
             return year
+
+    @staticmethod
+    def get_random_date():
+        year = randint(1, 2000)
+        month = randint(1, 12)
+        day = randint(1, 31)
+        era = Era.BCE if randint(0, 1) == 0 else Era.CE
+        return HistoricalDate(year, month, day, era)
+        
 
 
 def testDate():

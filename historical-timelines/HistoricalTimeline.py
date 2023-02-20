@@ -42,25 +42,18 @@ class HistoricalTimeline:
         self.events.sort()
         self.periods.sort()
 
+    def populate_random_timeline(self, N = 10):
+        events = []
+        for _ in range(N):
+            events.append(HistoricalEvent.get_random_event())
+        self.add_events(events)
+
 
 def testTimeline():
-    h = HistoricalDate(1, 2, 3, -1)
-    i = HistoricalDate(2, era=-1)
-    j = HistoricalDate(3, 12, 3)
-
-    e = HistoricalEvent("a", "b", h)
-    f = HistoricalEvent("c", "d", i, j)
-    g = HistoricalEvent("e", "f", j)
-    
-    t = HistoricalTimeline()
-    t.add_event(e)
-    t.add_event(f)
-    t.add_event(g)
-    t.add_events([e, f])
-
-    t.sort()
-    print(len(t))
-    print(t)
+    r = HistoricalTimeline()
+    r.populate_random_timeline()
+    r.sort()
+    print(r)
 
 if __name__ == "__main__":
     testTimeline()

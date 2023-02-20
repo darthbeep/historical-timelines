@@ -1,5 +1,7 @@
 from enum import Enum
 from HistoricalDate import HistoricalDate
+from string import ascii_lowercase, digits
+from random import choices, randint
 
 class EventType(Enum):
     Event = 1
@@ -36,6 +38,19 @@ class HistoricalEvent:
 
     def is_period(self) -> bool:
         return self.event_type == EventType.Period
+
+    @staticmethod
+    def get_random_string(N = 7):
+        # Stolen from https://www.geeksforgeeks.org/python-generate-random-string-of-given-length/
+        return ''.join(choices(ascii_lowercase + digits, k=N))
+
+    @staticmethod
+    def get_random_event():
+        title = HistoricalEvent.get_random_string()
+        description = HistoricalEvent.get_random_string()
+        start = HistoricalDate.get_random_date()
+        end = HistoricalDate.get_random_date() if randint(0, 1) == 0 else None
+        return HistoricalEvent(title, description, start, end)
 
 def testEvent():
     h = HistoricalDate(1, 2, 3, -1)
