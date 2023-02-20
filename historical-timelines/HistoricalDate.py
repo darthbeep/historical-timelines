@@ -39,7 +39,7 @@ class HistoricalDate:
             return "{}, {} {}".format(self.month.name, self.year, self.era.name)
         return "{} {}".format(self.year, self.era.name)
 
-    def __lt__(self, other) -> bool:
+    def __lt__(self, other: object) -> bool:
         year = self.get_adjudged_year(self.year, self.era)
         other_year = self.get_adjudged_year(other.year, other.era)
         if year != other_year:
@@ -60,7 +60,7 @@ class HistoricalDate:
             return True
         return self.day < other.day
 
-    def __gt__(self, other) -> bool:
+    def __gt__(self, other: object) -> bool:
         year = self.get_adjudged_year(self.year, self.era)
         other_year = self.get_adjudged_year(other.year, other.era)
         if year != other_year:
@@ -81,13 +81,7 @@ class HistoricalDate:
             return True
         return self.day > other.day
 
-    def __le__(self, other) -> bool:
-        return not self.__gt__(other)
-    
-    def __ge__(self, other) -> bool:
-        return not self.__lt__(other)
-
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         year = self.get_adjudged_year(self.year, self.era)
         other_year = self.get_adjudged_year(other.year, other.era)
         if year != other_year:
@@ -106,8 +100,25 @@ class HistoricalDate:
             return False
         return True
 
+    def __le__(self, other: object) -> bool:
+        return not self.__gt__(other)
+    
+    def __ge__(self, other: object) -> bool:
+        return not self.__lt__(other)
+
+    def __ne__(self, other: object) -> bool:
+        return not self.__eq__(other)
+
     @staticmethod
     def assign_month(month: int) -> Month:
+        """Convert an int into a Month enum
+
+        Args:
+            month (int): The integer representation of the month
+
+        Returns:
+            Month: The Month enum representation of the month
+        """
         if not month:
             return None
         if type(month) is int and month > 0 and month < 13:
@@ -116,13 +127,27 @@ class HistoricalDate:
 
     @staticmethod
     def get_adjudged_year(year: int, era: Era) -> int:
+        """Get a year adjusted for sorting. This makes BCE years negative
+
+        Args:
+            year (int): The year to adjust
+            era (Era): The corresponding era
+
+        Returns:
+            int: The adjusted year
+        """
         if era is Era.BCE:
             return year * -1
         elif era is Era.CE:
             return year
 
     @staticmethod
-    def get_random_date():
+    def get_random_date() -> 'HistoricalDate':
+        """Generate a random date
+
+        Returns:
+            HistoricalDate: A random date
+        """
         year = randint(1, 2000)
         month = randint(1, 12)
         day = randint(1, 31)

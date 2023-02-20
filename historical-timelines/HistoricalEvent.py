@@ -37,34 +37,60 @@ class HistoricalEvent:
     def __repr__(self) -> str:
         return str(self)
 
-    def __lt__(self, other) -> bool:
+    def __lt__(self, other: object) -> bool:
         return self.start < other.start
 
-    def __gt__(self, other) -> bool:
-        return self.start > other.start
-
-    def __lt__(self, other) -> bool:
+    def __le__(self, other: object) -> bool:
         return self.start <= other.start
 
-    def __gt__(self, other) -> bool:
+    def __gt__(self, other: object) -> bool:
+        return self.start > other.start
+
+    def __ge__(self, other: object) -> bool:
         return self.start >= other.start
     
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         return self.start == other.start
+
+    def __ne__(self, other: object) -> bool:
+        return self.start != other.start
     
     def is_event(self) -> bool:
+        """
+        If an event is an event
+
+        Checks an events event type to see if it is an event, as in a single point in time.
+        """
         return self.event_type == EventType.Event
 
     def is_period(self) -> bool:
+        """
+        If an event is a period
+
+        Checks an events event type to see if it is a period, as in a time period between two dates.
+        """
         return self.event_type == EventType.Period
 
     @staticmethod
-    def get_random_string(N = 7):
+    def get_random_string(N: int = 7) -> str:
+        """Generate a random string
+
+        Args:
+            N (int, optional): The length of the string. Defaults to 7.
+
+        Returns:
+            str: The random string
+        """
         # Stolen from https://www.geeksforgeeks.org/python-generate-random-string-of-given-length/
         return ''.join(choices(ascii_lowercase + digits, k=N))
 
     @staticmethod
-    def get_random_event():
+    def get_random_event() -> 'HistoricalEvent':
+        """Generate a random event
+
+        Returns:
+            HistoricalEvent: A random event
+        """
         title = HistoricalEvent.get_random_string()
         description = HistoricalEvent.get_random_string()
         start = HistoricalDate.get_random_date()

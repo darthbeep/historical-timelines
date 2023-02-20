@@ -5,10 +5,17 @@ class HistoricalTimeline:
     periods: list[HistoricalEvent]
 
     def __init__(self) -> None:
+        """Initialization function
+        """
         self.events = []
         self.periods = []
 
     def __str__(self) -> str:
+        """To string function
+
+        Returns:
+            str: A representation of the function as a string
+        """
         ret = ""
         if len(self.events) > 0:
             ret += "Events:\n"
@@ -24,24 +31,46 @@ class HistoricalTimeline:
                 ret += "\n"
         return ret
 
-    def __len__(self):
+    def __len__(self) -> int:
+        """Length function
+
+        Returns:
+            int: The number of all events in the timeline
+        """
         return len(self.events) + len(self.periods)
 
-    def add_event(self, event: HistoricalEvent):
+    def add_event(self, event: HistoricalEvent) -> None:
+        """Add a singular event
+
+        Args:
+            event (HistoricalEvent): The event to be added
+        """
         if event.is_event():
             self.events.append(event)
         elif event.is_period():
             self.periods.append(event)
     
-    def add_events(self, events: list[HistoricalEvent]):
+    def add_events(self, events: list[HistoricalEvent]) -> None:
+        """Add a list of events
+
+        Args:
+            events (list[HistoricalEvent]): A list of events to be added
+        """
         for event in events:
             self.add_event(event)
 
     def sort(self):
+        """Sorts the timeline
+        """
         self.events.sort()
         self.periods.sort()
 
-    def collision_sort(self):
+    def collision_sort(self) -> list[list[HistoricalEvent]]:
+        """Generates lists of subsets of periods such that no periods overlap
+
+        Returns:
+            list[list[HistoricalEvent]]: A list of a list of non overlapping periods
+        """
         pds = []
         if len(self.periods) == 0:
             return pds
@@ -58,7 +87,12 @@ class HistoricalTimeline:
         return pds
         
 
-    def populate_random_timeline(self, N = 10):
+    def populate_random_timeline(self, N: int = 10) -> None:
+        """Populate the timeline with random events
+
+        Args:
+            N (int, optional): The number of events to populate the timeline with. Defaults to 10.
+        """
         events = []
         for _ in range(N):
             events.append(HistoricalEvent.get_random_event())
