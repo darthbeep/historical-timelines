@@ -1,4 +1,6 @@
+from HistoricalDate import Era
 from HistoricalEvent import HistoricalEvent
+from csv import DictReader
 
 class HistoricalTimeline:
     events: list[HistoricalEvent]
@@ -86,6 +88,13 @@ class HistoricalTimeline:
 
         return pds
         
+    def populate_timeline_from_dict(self, timeline_dict: object):
+        events = []
+        for dict_event in timeline_dict:
+            event = HistoricalEvent.event_from_dict(dict_event)
+            events.append(event)
+        self.add_events(events)
+        self.sort()
 
     def populate_random_timeline(self, N: int = 10) -> None:
         """Populate the timeline with random events
@@ -97,14 +106,39 @@ class HistoricalTimeline:
         for _ in range(N):
             events.append(HistoricalEvent.get_random_event())
         self.add_events(events)
+        
+    @staticmethod
+    def json_from_csv(path: str, title_name: str = "title", description_name: str = "description",
+                      start_name: str = "start", end_name: str = "end", csv_era: Era = Era.CE) -> list[dict]:
+        dates = []
+        with open(path) as csvfile:
+            reader = DictReader(csvfile)
+            for row in reader:
+                event = {}
+                event["title"] = row[title_name]
+                event["description"] = row[description_name]
+                event["start"] = int(row[start_name])
+                if row[end_name] == "":
+                    event["end"] = None
+                else:
+                    event["end"] = int(row[end_name])
+                event["era"] = csv_era
+                dates.append(event)
+        return dates
 
 
 def testTimeline():
     r = HistoricalTimeline()
     r.populate_random_timeline()
     r.sort()
-    print(r)
-    print(r.collision_sort())
+    #print(r)
+    #print(r.collision_sort())
+    
+    c = HistoricalTimeline()
+    d = HistoricalTimeline.json_from_csv("/tmp/timeline.csv", "Event", "Description", "Start", "End", Era.BCE)
+    c.populate_timeline_from_dict(d)
+    print(c)
+    print(c.collision_sort())
 
 if __name__ == "__main__":
     testTimeline()

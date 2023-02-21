@@ -70,6 +70,14 @@ class HistoricalEvent:
         Checks an events event type to see if it is a period, as in a time period between two dates.
         """
         return self.event_type == EventType.Period
+    
+    @staticmethod
+    def event_from_dict(event_dict: object) -> 'HistoricalEvent':
+        start = HistoricalDate(event_dict["start"], era=event_dict["era"])
+        end = None
+        if event_dict["end"]:
+            end = HistoricalDate(event_dict["end"], era=event_dict["era"])
+        return HistoricalEvent(event_dict["title"], event_dict["description"], start, end)
 
     @staticmethod
     def get_random_string(N: int = 7) -> str:
