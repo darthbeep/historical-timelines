@@ -1,5 +1,5 @@
-from HistoricalDate import Era
-from HistoricalEvent import HistoricalEvent
+from .date import Era
+from .event import HistoricalEvent
 from csv import DictReader
 
 class HistoricalTimeline:
@@ -134,11 +134,11 @@ def testTimeline():
     #print(r)
     #print(r.collision_sort())
     
-    c = HistoricalTimeline()
-    d = HistoricalTimeline.json_from_csv("/tmp/timeline.csv", "Event", "Description", "Start", "End", Era.BCE)
-    c.populate_timeline_from_dict(d)
-    print(c)
-    print(c.collision_sort())
+    #c = HistoricalTimeline()
+    #d = HistoricalTimeline.json_from_csv("/tmp/timeline.csv", "Event", "Description", "Start", "End", Era.BCE)
+    #c.populate_timeline_from_dict(d)
+    #print(c)
+    #print(c.collision_sort())
 
 if __name__ == "__main__":
     testTimeline()
