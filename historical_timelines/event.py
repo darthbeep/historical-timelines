@@ -1,7 +1,7 @@
 from enum import Enum
 from string import ascii_lowercase, digits
 from random import choices, randint
-from .date import HistoricalDate
+from .date import HistoricalDate, Era
 
 
 class EventType(Enum):
@@ -113,6 +113,8 @@ def testEvent():
 
     e = HistoricalEvent("a", "b", h)
     f = HistoricalEvent("c", "d", i, j)
+    print(e)
+    print(f)
     print(e < f)
 
 if __name__ == "__main__":

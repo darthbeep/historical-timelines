@@ -131,14 +131,15 @@ def testTimeline():
     r = HistoricalTimeline()
     r.populate_random_timeline()
     r.sort()
-    #print(r)
+    print(r)
     #print(r.collision_sort())
     
-    #c = HistoricalTimeline()
-    #d = HistoricalTimeline.json_from_csv("/tmp/timeline.csv", "Event", "Description", "Start", "End", Era.BCE)
-    #c.populate_timeline_from_dict(d)
-    #print(c)
-    #print(c.collision_sort())
+    c = HistoricalTimeline()
+    d = HistoricalTimeline.json_from_csv("historical_timelines/tests/timeline_egypt.csv", "Event", "Description", "Start", "End", Era.BCE)
+    c.populate_timeline_from_dict(d)
+    print(c)
+    print(len(c))
+    print(c.collision_sort())
 
 if __name__ == "__main__":
     testTimeline()
