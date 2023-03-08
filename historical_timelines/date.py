@@ -1,6 +1,7 @@
 from enum import Enum
 from random import randint
 
+
 class Month(Enum):
     January = 1
     February = 2
@@ -20,13 +21,16 @@ class Era(Enum):
     BCE = -1
     CE = 1
 
+
 class HistoricalDate:
     year: int
     month: Month
     day: int
     era: Era
 
-    def __init__(self, year: int, month: Month = None, day: int = None, era: Era = Era.CE) -> None:
+    def __init__(
+        self, year: int, month: Month = None, day: int = None, era: Era = Era.CE
+    ) -> None:
         self.year = year
         self.month = self.assign_month(month)
         self.day = day
@@ -34,7 +38,9 @@ class HistoricalDate:
 
     def __str__(self) -> str:
         if self.day and self.month:
-            return "{} {}, {} {}".format(self.month.name, self.day, self.year, self.era.name)
+            return "{} {}, {} {}".format(
+                self.month.name, self.day, self.year, self.era.name
+            )
         if self.month:
             return "{}, {} {}".format(self.month.name, self.year, self.era.name)
         return "{} {}".format(self.year, self.era.name)
@@ -102,7 +108,7 @@ class HistoricalDate:
 
     def __le__(self, other: object) -> bool:
         return not self.__gt__(other)
-    
+
     def __ge__(self, other: object) -> bool:
         return not self.__lt__(other)
 
@@ -142,7 +148,7 @@ class HistoricalDate:
             return year
 
     @staticmethod
-    def get_random_date() -> 'HistoricalDate':
+    def get_random_date() -> "HistoricalDate":
         """Generate a random date
 
         Returns:
@@ -153,7 +159,6 @@ class HistoricalDate:
         day = randint(1, 31)
         era = Era.BCE if randint(0, 1) == 0 else Era.CE
         return HistoricalDate(year, month, day, era)
-        
 
 
 def testDate():
@@ -162,6 +167,7 @@ def testDate():
     j = HistoricalDate(1, 8, 2)
     a = sorted([h, i, j])
     print(a[0], a[1], a[2])
+
 
 if __name__ == "__main__":
     testDate()

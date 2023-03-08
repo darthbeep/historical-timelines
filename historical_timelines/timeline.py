@@ -2,13 +2,13 @@ from .date import Era
 from .event import HistoricalEvent
 from csv import DictReader
 
+
 class HistoricalTimeline:
     events: list[HistoricalEvent]
     periods: list[HistoricalEvent]
 
     def __init__(self) -> None:
-        """Initialization function
-        """
+        """Initialization function"""
         self.events = []
         self.periods = []
 
@@ -51,7 +51,7 @@ class HistoricalTimeline:
             self.events.append(event)
         elif event.is_period():
             self.periods.append(event)
-    
+
     def add_events(self, events: list[HistoricalEvent]) -> None:
         """Add a list of events
 
@@ -62,8 +62,7 @@ class HistoricalTimeline:
             self.add_event(event)
 
     def sort(self):
-        """Sorts the timeline
-        """
+        """Sorts the timeline"""
         self.events.sort()
         self.periods.sort()
 
@@ -87,7 +86,7 @@ class HistoricalTimeline:
                 pds.append([period])
 
         return pds
-        
+
     def populate_timeline_from_dict(self, timeline_dict: object):
         events = []
         for dict_event in timeline_dict:
@@ -106,10 +105,16 @@ class HistoricalTimeline:
         for _ in range(N):
             events.append(HistoricalEvent.get_random_event())
         self.add_events(events)
-        
+
     @staticmethod
-    def json_from_csv(path: str, title_name: str = "title", description_name: str = "description",
-                      start_name: str = "start", end_name: str = "end", csv_era: Era = Era.CE) -> list[dict]:
+    def json_from_csv(
+        path: str,
+        title_name: str = "title",
+        description_name: str = "description",
+        start_name: str = "start",
+        end_name: str = "end",
+        csv_era: Era = Era.CE,
+    ) -> list[dict]:
         dates = []
         with open(path) as csvfile:
             reader = DictReader(csvfile)
@@ -132,14 +137,22 @@ def testTimeline():
     r.populate_random_timeline()
     r.sort()
     print(r)
-    #print(r.collision_sort())
-    
+    # print(r.collision_sort())
+
     c = HistoricalTimeline()
-    d = HistoricalTimeline.json_from_csv("historical_timelines/tests/timeline_egypt.csv", "Event", "Description", "Start", "End", Era.BCE)
+    d = HistoricalTimeline.json_from_csv(
+        "historical_timelines/tests/timeline_egypt.csv",
+        "Event",
+        "Description",
+        "Start",
+        "End",
+        Era.BCE,
+    )
     c.populate_timeline_from_dict(d)
     print(c)
     print(len(c))
     print(c.collision_sort())
+
 
 if __name__ == "__main__":
     testTimeline()
