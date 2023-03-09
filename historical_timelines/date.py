@@ -28,9 +28,7 @@ class HistoricalDate:
     day: int
     era: Era
 
-    def __init__(
-        self, year: int, month: Month = None, day: int = None, era: Era = Era.CE
-    ) -> None:
+    def __init__(self, year: int, month: Month = None, day: int = None, era: Era = Era.CE) -> None:
         self.year = year
         self.month = self.assign_month(month)
         self.day = day
@@ -38,9 +36,7 @@ class HistoricalDate:
 
     def __str__(self) -> str:
         if self.day and self.month:
-            return "{} {}, {} {}".format(
-                self.month.name, self.day, self.year, self.era.name
-            )
+            return "{} {}, {} {}".format(self.month.name, self.day, self.year, self.era.name)
         if self.month:
             return "{}, {} {}".format(self.month.name, self.year, self.era.name)
         return "{} {}".format(self.year, self.era.name)
