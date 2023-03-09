@@ -1,0 +1,25 @@
+graft historical_timelines
+
+include LICENSE
+include README.md
+include CONTRIBUTING.md
+include MANIFEST.in
+
+include .bumpversion.cfg
+include pyproject.toml
+include Makefile
+
+prune .github
+exclude .gitignore
+exclude .gitattributes
+
+# Patterns to exclude from any directory
+global-exclude *~
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude .git
+global-exclude .ipynb_checkpoints
+global-exclude .DS_Store
+global-exclude .coverage
+global-exclude .pytest_cache/*
+global-exclude .pytest_cache/v/cache/*
