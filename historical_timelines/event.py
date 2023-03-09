@@ -85,9 +85,7 @@ class HistoricalEvent:
         end = None
         if event_dict["end"]:
             end = HistoricalDate(event_dict["end"], era=event_dict["era"])
-        return HistoricalEvent(
-            event_dict["title"], event_dict["description"], start, end
-        )
+        return HistoricalEvent(event_dict["title"], event_dict["description"], start, end)
 
     @staticmethod
     def get_random_string(N: int = 7) -> str:
