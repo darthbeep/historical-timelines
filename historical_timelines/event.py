@@ -1,7 +1,7 @@
 from enum import Enum
 from string import ascii_lowercase, digits
 from random import choices, randint
-from .date import HistoricalDate, Era
+from .date import HistoricalDate
 
 
 class EventType(Enum):
