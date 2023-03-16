@@ -111,6 +111,7 @@ class HistoricalTimeline:
         path: str,
         title_name: str = "title",
         description_name: str = "description",
+        label_name: str = "label",
         start_name: str = "start",
         end_name: str = "end",
         csv_era: Era = Era.CE,
@@ -122,6 +123,7 @@ class HistoricalTimeline:
                 event = {}
                 event["title"] = row[title_name]
                 event["description"] = row[description_name]
+                event["label"] = row[label_name]
                 event["start"] = int(row[start_name])
                 if row[end_name] == "":
                     event["end"] = None
@@ -136,7 +138,7 @@ def testTimeline():
     r = HistoricalTimeline()
     r.populate_random_timeline()
     r.sort()
-    print(r)
+    #print(r)
     # print(r.collision_sort())
 
     c = HistoricalTimeline()
@@ -144,14 +146,31 @@ def testTimeline():
         "historical_timelines/tests/timeline_egypt.csv",
         "Event",
         "Description",
+        "Label",
         "Start",
         "End",
         Era.BCE,
     )
     c.populate_timeline_from_dict(d)
-    print(c)
-    print(len(c))
-    print(c.collision_sort())
+    #print(c)
+    #print(len(c))
+    #print(c.collision_sort())
+    a1 = []
+    a2 = []
+    a3 = []
+    a4 = []
+    a5 = []
+    for t in c.events:
+        a1.append(t.start.year)
+        a2.append(t.get_title_with_newlines())
+        a3.append(-t.start.year)
+        a4.append(t.label)
+        a5.append(t.description)
+    print(a1)
+    print(a2)
+    print(a3)
+    print(a4)
+    print(a5)
 
 
 if __name__ == "__main__":

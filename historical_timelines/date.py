@@ -1,7 +1,6 @@
 from enum import Enum
 from random import randint
 
-
 class Month(Enum):
     January = 1
     February = 2
