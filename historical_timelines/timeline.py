@@ -1,14 +1,17 @@
 from .date import Era
 from .event import HistoricalEvent
+from .graphics import render_timeline
 from csv import DictReader
 
 
 class HistoricalTimeline:
+    title: str
     events: list[HistoricalEvent]
     periods: list[HistoricalEvent]
 
-    def __init__(self) -> None:
+    def __init__(self, title: str = "") -> None:
         """Initialization function"""
+        self.title = title
         self.events = []
         self.periods = []
 
@@ -105,6 +108,32 @@ class HistoricalTimeline:
         for _ in range(N):
             events.append(HistoricalEvent.get_random_event())
         self.add_events(events)
+        
+    def create_event_dict(self):
+        dates = []
+        titles = []
+        descriptions = []
+        labels = []
+        
+        for event in self.events:
+            dates.append(event.get_adjusted_year())
+            titles.append(event.get_title_with_newlines())
+            descriptions.append(event.description)
+            labels.append(event.label)
+            
+        event_dict = {
+            "dates": dates,
+            "title": titles,
+            "description": descriptions,
+            "label": labels
+        }
+        
+        return event_dict
+        
+    def render_timeline(self):
+        print(self.title)
+        event_dict = self.create_event_dict()
+        render_timeline(self.title, event_dict)
 
     @staticmethod
     def json_from_csv(
@@ -141,7 +170,7 @@ def testTimeline():
     #print(r)
     # print(r.collision_sort())
 
-    c = HistoricalTimeline()
+    c = HistoricalTimeline("Events in Late New Kingdom Egypt")
     d = HistoricalTimeline.json_from_csv(
         "historical_timelines/tests/timeline_egypt.csv",
         "Event",
@@ -152,25 +181,8 @@ def testTimeline():
         Era.BCE,
     )
     c.populate_timeline_from_dict(d)
-    #print(c)
-    #print(len(c))
-    #print(c.collision_sort())
-    a1 = []
-    a2 = []
-    a3 = []
-    a4 = []
-    a5 = []
-    for t in c.events:
-        a1.append(t.start.year)
-        a2.append(t.get_title_with_newlines())
-        a3.append(-t.start.year)
-        a4.append(t.label)
-        a5.append(t.description)
-    print(a1)
-    print(a2)
-    print(a3)
-    print(a4)
-    print(a5)
+    c.render_timeline()
+    
 
 
 if __name__ == "__main__":

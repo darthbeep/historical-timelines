@@ -122,6 +122,11 @@ class HistoricalEvent:
                 char_counter = next_break + 1
         
         return ret_title
+    
+    def get_adjusted_year(self):
+        if self.event_type is EventType.Event:
+            return self.start.get_adjudged_year()
+        return [self.start.get_adjudged_year(), self.end.get_adjudged_year()]
                 
 
     @staticmethod
