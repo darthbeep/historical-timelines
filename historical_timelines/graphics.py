@@ -21,45 +21,54 @@ from bokeh.core.properties import value
 def get_source_from_timeline():
     return ColumnDataSource(data=dict(x=dates, xn=datesn, y=y_start, title=titlesn, label=labels, description=desc))
 
-def setup_figure():
-    TOOLS = "hover,pan,wheel_zoom,box_zoom,reset,save"
-    return figure(tools=TOOLS, title="Simple line example", x_axis_label='tbd', y_axis_label='label', width=1600, height=400, y_range=["p1", "Event", "Person"])
+def setup_figure(*args, **kwargs):
+    if not "tools" in kwargs:
+        kwargs["tools"] = "hover,pan,wheel_zoom,box_zoom,reset,save"
+    #return figure(tools=TOOLS, title=title, x_axis_label=x_axis_label, y_axis_label=y_axis_label, height=height, width=width, y_range=["p1", "Event", "Person"])
+    return figure(*args, **kwargs)
+    
 
-def render_events(plot, source):
-    plot.scatter(x='xn', y='label', legend_label="Temp.", size=20, source=source)
+def render_events(plot, source, x, y, size):
+    plot.scatter(x=x, y=y, size=size, source=source)
     
-def event_tooltips(plot):
-    plot.hover.tooltips = [
-        ("title", "@title"),
-        ("description:", "@description")
-    ]
+def event_tooltips(plot, tooltip_names):
+    tooltips = []
+    for tool in tooltip_names:
+        tooltips.append((tool, "@" + tool))
+    plot.hover.tooltips = tooltips
     
-def event_labels(plot, source):
-    labels = LabelSet(x="xn", y="label", text="title", y_offset=8,
-                  text_font_size="11px", text_color="#555555",
-                  source=source, text_align='center')
+def event_labels(plot, source, x, y, text, y_offset=8,
+                  text_font_size="11px", text_color="#555555", text_align='center'):
+    labels = LabelSet(x=x, y=y, text=text, y_offset=y_offset,
+                  text_font_size=text_font_size, text_color=text_color,
+                  text_align=text_align, source=source)
     plot.add_layout(labels)
     
+# TODO: More on periods
 def render_periods(plot):
     for i in range(len(cdates)):
         dates = cdates[i]
         src = ColumnDataSource(data=dict(title=[ctitles[i]]))
         plot.hbar(right=dates[0], left=dates[1], y=value("p1"), source=src)
 
-def format_xaxis(plot):
-    plot.xaxis.formatter = CustomJSTickFormatter(code = '''
-    return Math.abs(tick) + " BCE";
-    ''')
+def format_xaxis(plot, scientific=False):
+    code = ""
+    if scientific:
+        code = '''return tick < 0 ? Math.abs(tick) + " BCE" : tick +  " CE"'''
+    else:
+        code = '''return tick < 0 ? Math.abs(tick) + " BC" : tick +  " AD"'''
+    plot.xaxis.formatter = CustomJSTickFormatter(code=code)
     
     
 def chart_timeline():
     source = get_source_from_timeline()
-    p = setup_figure()
-    event_tooltips(p)
-    render_events(p, source)
-    event_labels(p, source)
+    p = setup_figure(title="hello world", x_axis_label="year", y_axis_label="category", height=300, width=1600, y_range=["p1", "Event", "Person"])
+    #p = setup_figure()
+    event_tooltips(p, tooltip_names=["title", "description"])
+    render_events(p, source, x='xn', y='label', size=20)
+    event_labels(p, source, x="xn", y="label", text="title")
     render_periods(p)
-    format_xaxis(p)
+    format_xaxis(p, True)
     save(p)
     
 chart_timeline()
