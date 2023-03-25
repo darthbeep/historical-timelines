@@ -1,6 +1,7 @@
 from enum import Enum
 from random import randint
 
+
 class Month(Enum):
     January = 1
     February = 2
@@ -136,7 +137,7 @@ class HistoricalDate:
         if type(month) is int and month > 0 and month < 13:
             return Month(month)
         return None
-    
+
     @staticmethod
     def get_random_date() -> "HistoricalDate":
         """Generate a random date

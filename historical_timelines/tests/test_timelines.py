@@ -14,7 +14,8 @@ def test_timeline_csv():
     )
 
     assert (
-        "{'title': 'Amenmesse', 'description': 'Reign of Amenmesse', 'label': 'Ruler', 'start': 1201, 'end': 1198, 'era': <Era.BCE: -1>}" in str(j0)
+        "{'title': 'Amenmesse', 'description': 'Reign of Amenmesse', 'label': 'Ruler', 'start': 1201, 'end': 1198, 'era': <Era.BCE: -1>}"
+        in str(j0)
     )
 
     t0.populate_timeline_from_dict(j0)

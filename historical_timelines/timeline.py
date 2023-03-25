@@ -108,7 +108,7 @@ class HistoricalTimeline:
         for _ in range(N):
             events.append(HistoricalEvent.get_random_event())
         self.add_events(events)
-        
+
     def create_event_dict(self) -> dict[str, list]:
         """Create a dictionary that describes events to help with graphics
 
@@ -119,22 +119,17 @@ class HistoricalTimeline:
         titles = []
         descriptions = []
         labels = []
-        
+
         for event in self.events:
             dates.append(event.get_adjusted_year())
             titles.append(event.get_title_with_newlines())
             descriptions.append(event.description)
             labels.append(event.label)
-            
-        event_dict = {
-            "dates": dates,
-            "title": titles,
-            "description": descriptions,
-            "label": labels
-        }
-        
+
+        event_dict = {"dates": dates, "title": titles, "description": descriptions, "label": labels}
+
         return event_dict
-    
+
     def create_period_list(self):
         period_list = []
         period_groups = self.collision_sort()
@@ -145,7 +140,7 @@ class HistoricalTimeline:
             titles = []
             descriptions = []
             labels = []
-            
+
             for event in period_group:
                 start, end = event.get_adjusted_year()
                 starts.append(start)
@@ -154,20 +149,20 @@ class HistoricalTimeline:
                 titles.append(event.get_title_with_newlines())
                 descriptions.append(event.description)
                 labels.append(event.label)
-                
+
             event_dict = {
                 "start": starts,
                 "end": ends,
                 "mid": mids,
                 "title": titles,
                 "description": descriptions,
-                "label": labels
+                "label": labels,
             }
-            
+
             period_list.append(event_dict)
-            
+
         return period_list
-        
+
     def render_timeline(self):
         event_dict = self.create_event_dict()
         period_list = self.create_period_list()
@@ -205,7 +200,7 @@ def testTimeline():
     r = HistoricalTimeline()
     r.populate_random_timeline()
     r.sort()
-    #print(r)
+    # print(r)
     # print(r.collision_sort())
 
     c = HistoricalTimeline("Events in Late New Kingdom Egypt")
@@ -219,8 +214,7 @@ def testTimeline():
         Era.BCE,
     )
     c.populate_timeline_from_dict(d)
-    #c.render_timeline()
-    
+    # c.render_timeline()
 
 
 if __name__ == "__main__":

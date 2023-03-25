@@ -36,12 +36,13 @@ def test_date_operators():
     assert d0 != d1
     assert d3 != d2
     assert d5 != d4
-    
+
+
 def test_assign_month():
     m0 = HistoricalDate.assign_month(False)
     m1 = HistoricalDate.assign_month(3)
     m2 = HistoricalDate.assign_month(13)
-    
+
     assert m0 == None
     assert m1 == Month.March
     assert m2 == None

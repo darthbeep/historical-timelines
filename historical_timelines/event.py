@@ -81,10 +81,10 @@ class HistoricalEvent:
         Checks an events event type to see if it is a period, as in a time period between two dates.
         """
         return self.event_type == EventType.Period
-    
+
     def get_title_with_newlines(self, max_line_width: int = 10) -> str:
         """Get the event's title with newlines placed
-        
+
         Newlines are inserted in the first word break after the max_line_width variable.
         Good for making sure timeline labels aren't cramped.
 
@@ -99,7 +99,7 @@ class HistoricalEvent:
         stop_point = max_line_width
         prev_stop = 0
         ret_title = ""
-        
+
         for word in title_words:
             next_break = char_counter + len(word)
             if next_break > stop_point:
@@ -120,14 +120,13 @@ class HistoricalEvent:
                     ret_title += " "
                 ret_title += word
                 char_counter = next_break + 1
-        
+
         return ret_title
-    
+
     def get_adjusted_year(self):
         if self.event_type is EventType.Event:
             return self.start.get_adjudged_year()
         return [self.start.get_adjudged_year(), self.end.get_adjudged_year()]
-                
 
     @staticmethod
     def event_from_dict(event_dict: object) -> "HistoricalEvent":
@@ -176,8 +175,8 @@ def testEvent():
     f = HistoricalEvent("c", "d", i, j)
     print(e)
     print(f)
-    #print(e < f)
-    
+    # print(e < f)
+
     g = HistoricalEvent("hello world i am here and i want line breaks to happen", "idk", h)
     s = g.get_title_with_newlines(11)
     print(s)
