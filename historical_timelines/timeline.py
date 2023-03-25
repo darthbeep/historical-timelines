@@ -219,7 +219,7 @@ def testTimeline():
         Era.BCE,
     )
     c.populate_timeline_from_dict(d)
-    c.render_timeline()
+    #c.render_timeline()
     
 
 

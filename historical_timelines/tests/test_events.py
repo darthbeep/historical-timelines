@@ -12,6 +12,7 @@ def test_event_string():
 
     e0 = HistoricalEvent("a", "b", d0)
     e1 = HistoricalEvent("c", "d", d1, d2)
+    print(e1.event_type)
     assert str(e0) == "a: b\nFebruary 3, 1 CE"
     assert str(e1) == "c: d\n5 BCE - 4 BCE"
 

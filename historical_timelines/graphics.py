@@ -1,10 +1,3 @@
-pdates = [[-1279, -1213], [1225, 1175], [1213, 1203], [1203, 1197], [1201, 1198], [1197, 1191], [1191, 1189], [1189, 1186], [1186, 1155], [1155, 1149], [1149, 1145], [1145, 1137], [1136, 1129], [1130, 1129], [1129, 1111], [1111, 1107], [1107, 1077]]
-pdatesn = [[-1279, -1213], [-1225, -1175], [-1213, -1203], [-1203, -1197], [-1201, -1198], [-1197, -1191], [-1191, -1189], [-1189, -1186], [-1186, -1155], [-1155, -1149], [-1149, -1145], [-1145, -1137], [-1136, -1129], [-1130, -1129], [-1129, -1111], [-1111, -1107], [-1107, -1077]]
-titlesp = ['Ramesses\nII', 'Earthquakes\n', 'Merneptah', 'Seti II', 'Amenmesse', 'Siptah', 'Twosret', 'Setnakhte', 'Ramesses\nIII', 'Ramesses\nIV', 'Ramesses V', 'Ramesses\nVI', 'Ramesses\nVII', 'Ramesses\nVIII', 'Ramesses\nIX', 'Ramesses X', 'Ramesses\nXI']
-cdates = [[-1279, -1213], [-1203, -1197], [-1191, -1189], [-1186, -1155], [-1149, -1145], [-1136, -1129], [-1111, -1107]]
-ctitles = ['Ramesses\nII', 'Seti II', 'Twosret', 'Ramesses\nIII', 'Ramesses V', 'Ramesses\nVII', 'Ramesses X']
-
-
 from bokeh.plotting import figure, save
 from bokeh.models import LabelSet, ColumnDataSource, CustomJSTickFormatter
 from bokeh.core.properties import value
@@ -23,8 +16,9 @@ def get_y_range(event_dict, period_list):
     for i in range(len(period_list)):
         y_range.append("p" + str(i))
         
-    for label in list(set(event_dict['label'])):
-        y_range.append(label)
+    for label in event_dict['label']:
+        if label not in y_range:
+            y_range.append(label)
     
     return y_range
 
@@ -71,9 +65,7 @@ def format_xaxis(plot, scientific=False):
 def render_timeline(title, event_dict, period_list):
     source = get_source_from_event_dict(event_dict)
     y_range = get_y_range(event_dict, period_list)
-    print(y_range)
     p = setup_figure(title=title, x_axis_label="year", y_axis_label="category", height=400, width=1600, y_range=y_range)
-    #p = setup_figure()
     event_tooltips(p, tooltip_names=["title", "description"])
     render_events(p, source, x='dates', y='label', size=20)
     render_periods(p, period_list)

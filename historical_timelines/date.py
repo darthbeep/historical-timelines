@@ -110,22 +110,6 @@ class HistoricalDate:
     def __ne__(self, other: object) -> bool:
         return not self.__eq__(other)
 
-    @staticmethod
-    def assign_month(month: int) -> Month:
-        """Convert an int into a Month enum
-
-        Args:
-            month (int): The integer representation of the month
-
-        Returns:
-            Month: The Month enum representation of the month
-        """
-        if not month:
-            return None
-        if type(month) is int and month > 0 and month < 13:
-            return Month(month)
-        return None
-
     def get_adjudged_year(self) -> int:
         """Get a year adjusted for sorting. This makes BCE years negative
 

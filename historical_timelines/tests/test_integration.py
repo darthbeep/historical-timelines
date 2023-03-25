@@ -8,6 +8,7 @@ def csv_timeline():
         "historical_timelines/tests/timeline_egypt.csv",
         "Event",
         "Description",
+        "Label",
         "Start",
         "End",
         Era.BCE,

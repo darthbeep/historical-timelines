@@ -22,8 +22,8 @@ class HistoricalEvent:
         title: str,
         description: str,
         start: HistoricalDate,
-        label: str = None,
         end: HistoricalDate = None,
+        label: str = None,
     ) -> None:
         self.title = title
         self.description = description
@@ -138,7 +138,7 @@ class HistoricalEvent:
             label = event_dict["label"]
         if event_dict["end"]:
             end = HistoricalDate(event_dict["end"], era=event_dict["era"])
-        return HistoricalEvent(event_dict["title"], event_dict["description"], start, label, end)
+        return HistoricalEvent(event_dict["title"], event_dict["description"], start, end, label)
 
     @staticmethod
     def get_random_string(N: int = 7) -> str:
@@ -174,8 +174,8 @@ def testEvent():
 
     e = HistoricalEvent("a", "b", h)
     f = HistoricalEvent("c", "d", i, j)
-    #print(e)
-    #print(f)
+    print(e)
+    print(f)
     #print(e < f)
     
     g = HistoricalEvent("hello world i am here and i want line breaks to happen", "idk", h)
