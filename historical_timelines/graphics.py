@@ -8,9 +8,8 @@ def get_source_from_event_dict(event_dict):
 
 
 def setup_figure(*args, **kwargs):
-    if not "tools" in kwargs:
+    if "tools" not in kwargs:
         kwargs["tools"] = "hover,pan,wheel_zoom,box_zoom,reset,save"
-    # return figure(tools=TOOLS, title=title, x_axis_label=x_axis_label, y_axis_label=y_axis_label, height=height, width=width, y_range=["p1", "Event", "Person"])
     return figure(*args, **kwargs)
 
 
