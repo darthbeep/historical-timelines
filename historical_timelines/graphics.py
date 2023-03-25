@@ -18,6 +18,15 @@ def setup_figure(*args, **kwargs):
     #return figure(tools=TOOLS, title=title, x_axis_label=x_axis_label, y_axis_label=y_axis_label, height=height, width=width, y_range=["p1", "Event", "Person"])
     return figure(*args, **kwargs)
     
+def get_y_range(event_dict, period_list):
+    y_range = []
+    for i in range(len(period_list)):
+        y_range.append("p" + str(i))
+        
+    for label in list(set(event_dict['label'])):
+        y_range.append(label)
+    
+    return y_range
 
 def render_events(plot, source, x, y, size):
     plot.scatter(x=x, y=y, size=size, source=source)
@@ -28,19 +37,28 @@ def event_tooltips(plot, tooltip_names):
         tooltips.append((tool, "@" + tool))
     plot.hover.tooltips = tooltips
     
-def event_labels(plot, source, x, y, text, y_offset=8,
+def event_labels(plot, source, x, y, text, y_offset=0,
                   text_font_size="11px", text_color="#555555", text_align='center'):
     labels = LabelSet(x=x, y=y, text=text, y_offset=y_offset,
                   text_font_size=text_font_size, text_color=text_color,
                   text_align=text_align, source=source)
     plot.add_layout(labels)
     
-# TODO: More on periods
-def render_periods(plot):
-    for i in range(len(cdates)):
-        dates = cdates[i]
-        src = ColumnDataSource(data=dict(title=[ctitles[i]]))
-        plot.hbar(right=dates[0], left=dates[1], y=value("p1"), source=src)
+def render_periods(plot, period_list, height=.3):
+    for i in range(len(period_list)):
+        period_group = period_list[i]
+        source = get_source_from_event_dict(period_group)
+        plot.hbar(right='start', left='end', y=value("p" + str(i)), height=height, color='red', source=source)
+        
+def period_labels(plot, period_list, text, y_offset=-8,
+                  text_font_size="11px", text_color="#555555", text_align='center'):
+    for i in range(len(period_list)):
+        period_group = period_list[i]
+        source = get_source_from_event_dict(period_group)
+        labels = LabelSet(x='mid', y=value("p" + str(i)), text=text, y_offset=y_offset,
+                  text_font_size=text_font_size, text_color=text_color,
+                  text_align=text_align, source=source)
+        plot.add_layout(labels)
 
 def format_xaxis(plot, scientific=False):
     code = ""
@@ -50,14 +68,17 @@ def format_xaxis(plot, scientific=False):
         code = '''return tick < 0 ? Math.abs(tick) + " BC" : tick +  " AD"'''
     plot.xaxis.formatter = CustomJSTickFormatter(code=code)
     
-def render_timeline(title, event_dict):
+def render_timeline(title, event_dict, period_list):
     source = get_source_from_event_dict(event_dict)
-    p = setup_figure(title=title, x_axis_label="year", y_axis_label="category", height=300, width=1600, y_range=["p1", "Event", "Person"])
+    y_range = get_y_range(event_dict, period_list)
+    print(y_range)
+    p = setup_figure(title=title, x_axis_label="year", y_axis_label="category", height=400, width=1600, y_range=y_range)
     #p = setup_figure()
     event_tooltips(p, tooltip_names=["title", "description"])
     render_events(p, source, x='dates', y='label', size=20)
+    render_periods(p, period_list)
+    period_labels(p, period_list, text="title")
     event_labels(p, source, x="dates", y="label", text="title")
-    render_periods(p)
     format_xaxis(p, False)
     save(p, "output.html", title=title)
     

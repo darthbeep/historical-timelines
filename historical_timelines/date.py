@@ -42,7 +42,7 @@ class HistoricalDate:
 
     def __lt__(self, other: object) -> bool:
         year = self.get_adjudged_year()
-        other_year = self.get_adjudged_year()
+        other_year = other.get_adjudged_year()
         if year != other_year:
             return year < other_year
         if not self.month and not other.month:
@@ -63,7 +63,7 @@ class HistoricalDate:
 
     def __gt__(self, other: object) -> bool:
         year = self.get_adjudged_year()
-        other_year = self.get_adjudged_year()
+        other_year = other.get_adjudged_year()
         if year != other_year:
             return year > other_year
         if not self.month and not other.month:
@@ -84,7 +84,7 @@ class HistoricalDate:
 
     def __eq__(self, other: object) -> bool:
         year = self.get_adjudged_year()
-        other_year = self.get_adjudged_year()
+        other_year = other.get_adjudged_year()
         if year != other_year:
             return False
         if self.month and not other.month:

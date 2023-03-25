@@ -109,7 +109,12 @@ class HistoricalTimeline:
             events.append(HistoricalEvent.get_random_event())
         self.add_events(events)
         
-    def create_event_dict(self):
+    def create_event_dict(self) -> dict[str, list]:
+        """Create a dictionary that describes events to help with graphics
+
+        Returns:
+            dict[str, list]: An event dict for the graphics generator
+        """
         dates = []
         titles = []
         descriptions = []
@@ -129,11 +134,44 @@ class HistoricalTimeline:
         }
         
         return event_dict
+    
+    def create_period_list(self):
+        period_list = []
+        period_groups = self.collision_sort()
+        for period_group in period_groups:
+            starts = []
+            ends = []
+            mids = []
+            titles = []
+            descriptions = []
+            labels = []
+            
+            for event in period_group:
+                start, end = event.get_adjusted_year()
+                starts.append(start)
+                ends.append(end)
+                mids.append((start + end) / 2)
+                titles.append(event.get_title_with_newlines())
+                descriptions.append(event.description)
+                labels.append(event.label)
+                
+            event_dict = {
+                "start": starts,
+                "end": ends,
+                "mid": mids,
+                "title": titles,
+                "description": descriptions,
+                "label": labels
+            }
+            
+            period_list.append(event_dict)
+            
+        return period_list
         
     def render_timeline(self):
-        print(self.title)
         event_dict = self.create_event_dict()
-        render_timeline(self.title, event_dict)
+        period_list = self.create_period_list()
+        render_timeline(self.title, event_dict, period_list)
 
     @staticmethod
     def json_from_csv(
