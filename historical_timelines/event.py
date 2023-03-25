@@ -89,7 +89,8 @@ class HistoricalEvent:
         Good for making sure timeline labels aren't cramped.
 
         Args:
-            max_line_width (int, optional): The maximum length a line is allowed to be before a newline is inserted after the next word.
+            max_line_width (int, optional):
+            The maximum length a line is allowed to be before a newline is inserted after the next word.
             Defaults to 10.
 
         Returns:
