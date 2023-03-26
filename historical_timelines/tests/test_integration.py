@@ -8,6 +8,7 @@ def csv_timeline():
         "historical_timelines/tests/timeline_egypt.csv",
         "Event",
         "Description",
+        "Label",
         "Start",
         "End",
         Era.BCE,
@@ -99,3 +100,31 @@ def test_random_timelines():
     t0.populate_random_timeline(5)
 
     assert len(t0) == 5
+
+
+def test_collision_sort():
+    t0 = csv_timeline()
+    c = t0.collision_sort()
+
+    assert len(c) == 3
+    assert len(c[0]) == 7
+    assert len(c[1]) == 5
+    assert len(c[2]) == 5
+
+
+def test_event_dict():
+    t0 = csv_timeline()
+    e = t0.create_event_dict()
+    k = list(e.keys())
+
+    assert k == ['dates', 'title', 'description', 'label']
+    assert len(e["label"]) == 16
+
+
+def test_period_list():
+    t0 = csv_timeline()
+    p = t0.create_period_list()
+    k = list(p[0].keys())
+
+    assert len(p) == 3
+    assert k == ['start', 'end', 'mid', 'title', 'description', 'label']

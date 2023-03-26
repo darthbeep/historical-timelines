@@ -12,6 +12,7 @@ class EventType(Enum):
 class HistoricalEvent:
     title: str
     description: str
+    label: str
     event_type: EventType
     start: HistoricalDate
     end: HistoricalDate
@@ -22,11 +23,13 @@ class HistoricalEvent:
         description: str,
         start: HistoricalDate,
         end: HistoricalDate = None,
+        label: str = None,
     ) -> None:
         self.title = title
         self.description = description
         self.start = start
         self.end = end
+        self.label = label
         if end and end < start:
             self.start = end
             self.end = start
@@ -79,13 +82,64 @@ class HistoricalEvent:
         """
         return self.event_type == EventType.Period
 
+    def get_title_with_newlines(self, max_line_width: int = 10) -> str:
+        """Get the event's title with newlines placed
+
+        Newlines are inserted in the first word break after the max_line_width variable.
+        Good for making sure timeline labels aren't cramped.
+
+        Args:
+            max_line_width (int, optional):
+            The maximum length a line is allowed to be before a newline is inserted after the next word.
+            Defaults to 10.
+
+        Returns:
+            str: The event's title, with newlines inserted.
+        """
+        title_words = self.title.split(" ")
+        char_counter = 0
+        stop_point = max_line_width
+        prev_stop = 0
+        ret_title = ""
+
+        for word in title_words:
+            next_break = char_counter + len(word)
+            if next_break > stop_point:
+                if char_counter == prev_stop:
+                    ret_title += word
+                    ret_title += "\n"
+                    stop_point += max_line_width
+                    char_counter = stop_point
+                    prev_stop = char_counter
+                else:
+                    ret_title += "\n"
+                    ret_title += word
+                    prev_stop = stop_point
+                    char_counter = stop_point + len(word)
+                    stop_point += max_line_width
+            else:
+                if char_counter != prev_stop:
+                    ret_title += " "
+                ret_title += word
+                char_counter = next_break + 1
+
+        return ret_title
+
+    def get_adjusted_year(self):
+        if self.event_type is EventType.Event:
+            return self.start.get_adjudged_year()
+        return [self.start.get_adjudged_year(), self.end.get_adjudged_year()]
+
     @staticmethod
     def event_from_dict(event_dict: object) -> "HistoricalEvent":
         start = HistoricalDate(event_dict["start"], era=event_dict["era"])
+        label = None
         end = None
+        if event_dict["label"]:
+            label = event_dict["label"]
         if event_dict["end"]:
             end = HistoricalDate(event_dict["end"], era=event_dict["era"])
-        return HistoricalEvent(event_dict["title"], event_dict["description"], start, end)
+        return HistoricalEvent(event_dict["title"], event_dict["description"], start, end, label)
 
     @staticmethod
     def get_random_string(N: int = 7) -> str:
@@ -123,7 +177,11 @@ def testEvent():
     f = HistoricalEvent("c", "d", i, j)
     print(e)
     print(f)
-    print(e < f)
+    # print(e < f)
+
+    g = HistoricalEvent("hello world i am here and i want line breaks to happen", "idk", h)
+    s = g.get_title_with_newlines(11)
+    print(s)
 
 
 if __name__ == "__main__":

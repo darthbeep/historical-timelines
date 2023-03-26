@@ -1,14 +1,17 @@
 from .date import Era
 from .event import HistoricalEvent
+from .graphics import render_timeline
 from csv import DictReader
 
 
 class HistoricalTimeline:
+    title: str
     events: list[HistoricalEvent]
     periods: list[HistoricalEvent]
 
-    def __init__(self) -> None:
+    def __init__(self, title: str = "") -> None:
         """Initialization function"""
+        self.title = title
         self.events = []
         self.periods = []
 
@@ -106,11 +109,71 @@ class HistoricalTimeline:
             events.append(HistoricalEvent.get_random_event())
         self.add_events(events)
 
+    def create_event_dict(self) -> dict[str, list]:
+        """Create a dictionary that describes events to help with graphics
+
+        Returns:
+            dict[str, list]: An event dict for the graphics generator
+        """
+        dates = []
+        titles = []
+        descriptions = []
+        labels = []
+
+        for event in self.events:
+            dates.append(event.get_adjusted_year())
+            titles.append(event.get_title_with_newlines())
+            descriptions.append(event.description)
+            labels.append(event.label)
+
+        event_dict = {"dates": dates, "title": titles, "description": descriptions, "label": labels}
+
+        return event_dict
+
+    def create_period_list(self):
+        period_list = []
+        period_groups = self.collision_sort()
+        for period_group in period_groups:
+            starts = []
+            ends = []
+            mids = []
+            titles = []
+            descriptions = []
+            labels = []
+
+            for event in period_group:
+                start, end = event.get_adjusted_year()
+                starts.append(start)
+                ends.append(end)
+                mids.append((start + end) / 2)
+                titles.append(event.get_title_with_newlines())
+                descriptions.append(event.description)
+                labels.append(event.label)
+
+            event_dict = {
+                "start": starts,
+                "end": ends,
+                "mid": mids,
+                "title": titles,
+                "description": descriptions,
+                "label": labels,
+            }
+
+            period_list.append(event_dict)
+
+        return period_list
+
+    def render_timeline(self):
+        event_dict = self.create_event_dict()
+        period_list = self.create_period_list()
+        render_timeline(self.title, event_dict, period_list)
+
     @staticmethod
     def json_from_csv(
         path: str,
         title_name: str = "title",
         description_name: str = "description",
+        label_name: str = "label",
         start_name: str = "start",
         end_name: str = "end",
         csv_era: Era = Era.CE,
@@ -122,6 +185,7 @@ class HistoricalTimeline:
                 event = {}
                 event["title"] = row[title_name]
                 event["description"] = row[description_name]
+                event["label"] = row[label_name]
                 event["start"] = int(row[start_name])
                 if row[end_name] == "":
                     event["end"] = None
@@ -136,22 +200,21 @@ def testTimeline():
     r = HistoricalTimeline()
     r.populate_random_timeline()
     r.sort()
-    print(r)
+    # print(r)
     # print(r.collision_sort())
 
-    c = HistoricalTimeline()
+    c = HistoricalTimeline("Events in Late New Kingdom Egypt")
     d = HistoricalTimeline.json_from_csv(
         "historical_timelines/tests/timeline_egypt.csv",
         "Event",
         "Description",
+        "Label",
         "Start",
         "End",
         Era.BCE,
     )
     c.populate_timeline_from_dict(d)
-    print(c)
-    print(len(c))
-    print(c.collision_sort())
+    # c.render_timeline()
 
 
 if __name__ == "__main__":
