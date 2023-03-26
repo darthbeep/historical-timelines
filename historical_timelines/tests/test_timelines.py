@@ -36,3 +36,8 @@ def test_timeline_len():
     t0.populate_timeline_from_dict(j0)
 
     assert len(t0) == 33
+
+
+def test_empty_timeline_string():
+    t0 = HistoricalTimeline()
+    assert str(t0) == ""

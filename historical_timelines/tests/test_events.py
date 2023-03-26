@@ -30,3 +30,11 @@ def test_event_operators():
     assert e0 != e1
     assert e1 <= e0
     assert e1 < e0
+
+
+def test_get_title_with_newlines():
+    d0 = HistoricalDate(1, era=Era.CE)
+    e0 = HistoricalEvent("hello world this should have some newlines", "b", d0)
+    n = e0.get_title_with_newlines()
+
+    assert n == "hello\nworld this\nshould have\nsome\nnewlines"
