@@ -87,7 +87,7 @@ def format_xaxis(plot, scientific=False):
     plot.xaxis.formatter = CustomJSTickFormatter(code=code)
 
 
-def render_timeline(title, event_dict, period_list):
+def render_timeline(output, title, event_dict, period_list):
     source = get_source_from_event_dict(event_dict)
     y_range = get_y_range(event_dict, period_list)
     p = setup_figure(title=title, x_axis_label="year", y_axis_label="category", height=400, width=1600, y_range=y_range)
@@ -97,7 +97,7 @@ def render_timeline(title, event_dict, period_list):
     period_labels(p, period_list, text="title")
     event_labels(p, source, x="dates", y="label", text="title")
     format_xaxis(p, False)
-    save(p, "output.html", title=title)
+    save(p, output, title=title)
 
 
 if __name__ == "__main__":

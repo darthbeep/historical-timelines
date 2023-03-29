@@ -152,13 +152,5 @@ class HistoricalDate:
         return HistoricalDate(year, month, day, era)
 
 
-def testDate():
-    h = HistoricalDate(1, 8, 3, 1)
-    i = HistoricalDate(1, day=7, era=1)
-    j = HistoricalDate(1, 8, 2)
-    a = sorted([h, i, j])
-    print(a[0], a[1], a[2].get_adjudged_year())
-
-
 if __name__ == "__main__":
-    testDate()
+    pass

@@ -125,6 +125,11 @@ class HistoricalEvent:
 
         return ret_title
 
+    def get_label_or_default(self, default='default'):
+        if self.label:
+            return self.label
+        return default
+
     def get_adjusted_year(self):
         if self.event_type is EventType.Event:
             return self.start.get_adjudged_year()
@@ -168,21 +173,5 @@ class HistoricalEvent:
         return HistoricalEvent(title, description, start, end)
 
 
-def testEvent():
-    h = HistoricalDate(1, 2, 3, -1)
-    i = HistoricalDate(2, era=-1)
-    j = HistoricalDate(3, 12, 3)
-
-    e = HistoricalEvent("a", "b", h)
-    f = HistoricalEvent("c", "d", i, j)
-    print(e)
-    print(f)
-    # print(e < f)
-
-    g = HistoricalEvent("hello world i am here and i want line breaks to happen", "idk", h)
-    s = g.get_title_with_newlines(11)
-    print(s)
-
-
 if __name__ == "__main__":
-    testEvent()
+    pass
