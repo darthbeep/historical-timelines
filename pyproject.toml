@@ -11,7 +11,7 @@ name = "historical-timelines"
 authors = [{name = "darthbeep", email = "darthbeep@gmail.com"}]
 description="A python project to make historical timelines"
 readme = "README.md"
-version = "0.1.0"
+version = "0.2.0"
 requires-python = ">=3.7"
 
 dependencies = [
