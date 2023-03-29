@@ -98,16 +98,20 @@ class HistoricalTimeline:
         self.add_events(events)
         self.sort()
 
-    def populate_random_timeline(self, N: int = 10) -> None:
+    def populate_random_timeline(self, N: int = 10, sort=True) -> None:
         """Populate the timeline with random events
 
         Args:
             N (int, optional): The number of events to populate the timeline with. Defaults to 10.
+            sort (bool): Whether or not to sort the timeline after populating it
         """
         events = []
         for _ in range(N):
             events.append(HistoricalEvent.get_random_event())
         self.add_events(events)
+
+        if sort:
+            self.sort()
 
     def create_event_dict(self) -> dict[str, list]:
         """Create a dictionary that describes events to help with graphics
@@ -124,7 +128,7 @@ class HistoricalTimeline:
             dates.append(event.get_adjusted_year())
             titles.append(event.get_title_with_newlines())
             descriptions.append(event.description)
-            labels.append(event.label)
+            labels.append(event.get_label_or_default())
 
         event_dict = {"dates": dates, "title": titles, "description": descriptions, "label": labels}
 
@@ -163,10 +167,10 @@ class HistoricalTimeline:
 
         return period_list
 
-    def render_timeline(self):
+    def render_timeline(self, output):
         event_dict = self.create_event_dict()
         period_list = self.create_period_list()
-        render_timeline(self.title, event_dict, period_list)
+        render_timeline(output, self.title, event_dict, period_list)
 
     @staticmethod
     def json_from_csv(
@@ -196,26 +200,5 @@ class HistoricalTimeline:
         return dates
 
 
-def testTimeline():
-    r = HistoricalTimeline()
-    r.populate_random_timeline()
-    r.sort()
-    # print(r)
-    # print(r.collision_sort())
-
-    c = HistoricalTimeline("Events in Late New Kingdom Egypt")
-    d = HistoricalTimeline.json_from_csv(
-        "historical_timelines/tests/timeline_egypt.csv",
-        "Event",
-        "Description",
-        "Label",
-        "Start",
-        "End",
-        Era.BCE,
-    )
-    c.populate_timeline_from_dict(d)
-    # c.render_timeline()
-
-
 if __name__ == "__main__":
-    testTimeline()
+    pass
