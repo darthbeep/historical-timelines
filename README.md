@@ -5,10 +5,11 @@ Python package for creating timelines of historical events.
 [![codecov](https://codecov.io/gh/darthbeep/historical-timelines/branch/main/graph/badge.svg)](https://codecov.io/gh/darthbeep/historical-timelines)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![GitHub issues](https://img.shields.io/github/issues/darthbeep/historical-timelines)](https://github.com/darthbeep/historical-timelines/issues)
+[![PyPI](https://img.shields.io/pypi/v/historical_timelines)](https://pypi.org/project/historical-timelines/)
  
- ## Overview
- 
- historical-timelines is a python package for creating nice looking timelines, specifically with historical data in mind. historical-timelines uses [bokeh](https://bokeh.org/) to create images.
+## Overview
+
+historical-timelines is a python package for creating nice looking timelines, specifically with historical data in mind. historical-timelines uses [bokeh](https://bokeh.org/) to create images.
 
 ## Install
 
