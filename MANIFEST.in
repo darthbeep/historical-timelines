@@ -9,6 +9,8 @@ include .bumpversion.cfg
 include pyproject.toml
 include Makefile
 
+include doc/_static/*
+
 prune .github
 exclude .gitignore
 exclude .gitattributes
