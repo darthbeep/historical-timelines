@@ -3,7 +3,15 @@ from bokeh.models import LabelSet, ColumnDataSource, CustomJSTickFormatter
 from bokeh.core.properties import value
 
 
-def get_source_from_event_dict(event_dict):
+def get_source_from_event_dict(event_dict: dict) -> ColumnDataSource:
+    """Convert a dictionary into a ColumnDataSource
+
+    Args:
+        event_dict (dict): The dictionary input
+
+    Returns:
+        ColumnDataSource: The converted data
+    """
     return ColumnDataSource(data=event_dict)
 
 
