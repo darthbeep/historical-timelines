@@ -90,20 +90,28 @@ class HistoricalTimeline:
 
         return pds
 
-    def populate_timeline_from_dict(self, timeline_dict: object):
+    def populate_timeline_from_dict(self, timeline_dict: list, sort: bool = True) -> None:
+        """Populate a timeline from from an array of timeline compatible dictionaries
+
+        Args:
+            timeline_dict (list): An array of timeline compatible objects
+            sort (bool, optional): Whether or not to sort the timeline after populating. Defaults to True.
+        """
         events = []
         for dict_event in timeline_dict:
             event = HistoricalEvent.event_from_dict(dict_event)
             events.append(event)
         self.add_events(events)
-        self.sort()
 
-    def populate_random_timeline(self, N: int = 10, sort=True) -> None:
+        if sort:
+            self.sort()
+
+    def populate_random_timeline(self, N: int = 10, sort: bool = True) -> None:
         """Populate the timeline with random events
 
         Args:
             N (int, optional): The number of events to populate the timeline with. Defaults to 10.
-            sort (bool): Whether or not to sort the timeline after populating it
+            sort (bool, optional): Whether or not to sort the timeline after populating it. Defaults to True.
         """
         events = []
         for _ in range(N):
@@ -134,7 +142,12 @@ class HistoricalTimeline:
 
         return event_dict
 
-    def create_period_list(self):
+    def create_period_list(self) -> list[dict]:
+        """Create a list of periods that can be turned into a timeline image
+
+        Returns:
+            list[dict]: A list of dictionaries that can be turned into a timeline image
+        """
         period_list = []
         period_groups = self.collision_sort()
         for period_group in period_groups:
@@ -167,7 +180,12 @@ class HistoricalTimeline:
 
         return period_list
 
-    def render_timeline(self, output):
+    def render_timeline(self, output: str) -> None:
+        """Render the timeline as an image
+
+        Args:
+            output (str): The output filename
+        """
         event_dict = self.create_event_dict()
         period_list = self.create_period_list()
         render_timeline(output, self.title, event_dict, period_list)
@@ -182,6 +200,23 @@ class HistoricalTimeline:
         end_name: str = "end",
         csv_era: Era = Era.CE,
     ) -> list[dict]:
+        """Create a json from a csv that can be used to populate a timeline
+
+        This is the function that allows you to take a csv and turn it into a timeline object.
+        The output can be used as an input for `populate_timeline_from_dict`.
+
+        Args:
+            path (str): The path to the csv
+            title_name (str, optional): THe name of the title column. Defaults to "title".
+            description_name (str, optional): The name of the description column. Defaults to "description".
+            label_name (str, optional): The name of the label column. Defaults to "label".
+            start_name (str, optional): The name of the start date column. Defaults to "start".
+            end_name (str, optional): The name of the end date column. Defaults to "end".
+            csv_era (Era, optional): Which era the timeline is in (CE or BCE). Defaults to Era.CE.
+
+        Returns:
+            list[dict]: A json that can be used to populate a timeline
+        """
         dates = []
         with open(path) as csvfile:
             reader = DictReader(csvfile)

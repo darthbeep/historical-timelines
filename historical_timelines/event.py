@@ -125,18 +125,40 @@ class HistoricalEvent:
 
         return ret_title
 
-    def get_label_or_default(self, default='default'):
+    def get_label_or_default(self, default: str = 'default') -> str:
+        """Get get the label if it exists, otherwise return a default string
+
+        Args:
+            default (str, optional): The string to use if the label isn't found. Defaults to 'default'.
+
+        Returns:
+            str: The label or default string
+        """
         if self.label:
             return self.label
         return default
 
-    def get_adjusted_year(self):
+    def get_adjusted_year(self) -> int | tuple[int]:
+        """Get the year adjusted for the AD/BC timeline.
+        Returns an int if the event is an event, and a tuple if the event is a period.
+
+        Returns:
+            int | tuple[int]: The year(s), adjusted for AD/BC.
+        """
         if self.event_type is EventType.Event:
             return self.start.get_adjudged_year()
-        return [self.start.get_adjudged_year(), self.end.get_adjudged_year()]
+        return (self.start.get_adjudged_year(), self.end.get_adjudged_year())
 
     @staticmethod
     def event_from_dict(event_dict: object) -> "HistoricalEvent":
+        """Takes in a dictionary entry and turns it into a HistoricalEvent
+
+        Args:
+            event_dict (object): A dictionary representing a HistoricalEvent
+
+        Returns:
+            HistoricalEvent: The converted event
+        """
         start = HistoricalDate(event_dict["start"], era=event_dict["era"])
         label = None
         end = None
