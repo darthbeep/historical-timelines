@@ -138,12 +138,12 @@ class HistoricalEvent:
             return self.label
         return default
 
-    def get_adjusted_year(self) -> int | tuple[int]:
+    def get_adjusted_year(self):
         """Get the year adjusted for the AD/BC timeline.
         Returns an int if the event is an event, and a tuple if the event is a period.
 
         Returns:
-            int | tuple[int]: The year(s), adjusted for AD/BC.
+            int | tuple[int, int]: The year(s), adjusted for AD/BC.
         """
         if self.event_type is EventType.Event:
             return self.start.get_adjudged_year()
