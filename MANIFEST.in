@@ -25,5 +25,5 @@ global-exclude .pytest_cache/*
 global-exclude .pytest_cache/v/cache/*
 
 # Docs:
-recursive-include doc *
-prune doc/build
+recursive-include docs *
+prune docs/build
