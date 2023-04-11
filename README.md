@@ -35,7 +35,7 @@ timeline.render_timeline("timeline.html")
 
 This will produce something that looks like this:
 
-![Sample timeline](doc/_static/random_timeline.png)
+![Sample timeline](docs/source/_static/random_timeline.png)
 
 If you have a csv that you want to convert to a timeline, you can do that too. Suppose you have a csv with the path `timeline.csv`, and five columns entitled `Name`, `Description`, `Label`, `Start`, and `End`. It would be imported like this.
 
