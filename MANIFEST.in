@@ -9,8 +9,6 @@ include .bumpversion.cfg
 include pyproject.toml
 include Makefile
 
-include doc/_static/*
-
 prune .github
 exclude .gitignore
 exclude .gitattributes
@@ -25,3 +23,7 @@ global-exclude .DS_Store
 global-exclude .coverage
 global-exclude .pytest_cache/*
 global-exclude .pytest_cache/v/cache/*
+
+# Docs:
+recursive-include docs *
+prune docs/build
