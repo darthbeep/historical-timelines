@@ -15,7 +15,8 @@ release = '0.2.1'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 import sys
-sys.path.insert(0,"..")
+import os
+sys.path.insert(0, os.path.abspath('../..'))
 
 extensions = ["sphinx.ext.autodoc"]
 
