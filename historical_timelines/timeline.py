@@ -180,15 +180,16 @@ class HistoricalTimeline:
 
         return period_list
 
-    def render_timeline(self, output: str) -> None:
+    def render_timeline(self, output: str, show_timeline: bool = False) -> None:
         """Render the timeline as an image
 
         Args:
             output (str): The output filename
+            show_timeline (bool): Whether to show the timeline rather than saving it
         """
         event_dict = self.create_event_dict()
         period_list = self.create_period_list()
-        render_timeline(output, self.title, event_dict, period_list)
+        render_timeline(output, self.title, event_dict, period_list, show_timeline)
 
     @staticmethod
     def json_from_csv(
