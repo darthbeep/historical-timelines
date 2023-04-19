@@ -7,6 +7,7 @@ Python package for creating timelines of historical events.
 [![GitHub issues](https://img.shields.io/github/issues/darthbeep/historical-timelines)](https://github.com/darthbeep/historical-timelines/issues)
 [![PyPI](https://img.shields.io/pypi/v/historical_timelines)](https://pypi.org/project/historical-timelines/)
 [![Documentation Status](https://readthedocs.org/projects/historical-timelines/badge/?version=latest)](https://historical-timelines.readthedocs.io/en/latest/?badge=latest)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/darthbeep/historical-timelines/HEAD?labpath=docs%2Fbinder%2Ftutorial.ipynb)
 
 ## Overview
 
@@ -60,3 +61,5 @@ timeline.render_timeline("timeline.html")
 ## Documentation
 
 The documentation can be found [here](https://historical-timelines.readthedocs.io/en/latest/).
+
+A jupyter tutorial can be found [here](https://mybinder.org/v2/gh/darthbeep/historical-timelines/HEAD?labpath=docs%2Fbinder%2Ftutorial.ipynb).
