@@ -6,7 +6,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='historical_timelines',
-    version='0.2.2',
+    version='0.2.3',
     description='A Python package for making historical timelines',
     long_description=long_description,
     long_description_content_type='text/markdown',
