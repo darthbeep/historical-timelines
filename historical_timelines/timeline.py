@@ -121,8 +121,11 @@ class HistoricalTimeline:
         if sort:
             self.sort()
 
-    def create_event_dict(self) -> dict[str, list]:
+    def create_event_dict(self, label_max_line_width: int = 10) -> dict[str, list]:
         """Create a dictionary that describes events to help with graphics
+
+        Args:
+            label_max_line_width (int, optional): The maximum line width for labels. Defaults to 10.
 
         Returns:
             dict[str, list]: An event dict for the graphics generator
@@ -134,7 +137,7 @@ class HistoricalTimeline:
 
         for event in self.events:
             dates.append(event.get_adjusted_year())
-            titles.append(event.get_title_with_newlines())
+            titles.append(event.get_title_with_newlines(label_max_line_width))
             descriptions.append(event.description)
             labels.append(event.get_label_or_default())
 
@@ -142,8 +145,11 @@ class HistoricalTimeline:
 
         return event_dict
 
-    def create_period_list(self) -> list[dict]:
+    def create_period_list(self, label_max_line_width: int = 10) -> list[dict]:
         """Create a list of periods that can be turned into a timeline image
+
+        Args:
+            label_max_line_width (int, optional): The maximum line width for labels. Defaults to 10.
 
         Returns:
             list[dict]: A list of dictionaries that can be turned into a timeline image
@@ -163,7 +169,7 @@ class HistoricalTimeline:
                 starts.append(start)
                 ends.append(end)
                 mids.append((start + end) / 2)
-                titles.append(event.get_title_with_newlines())
+                titles.append(event.get_title_with_newlines(label_max_line_width))
                 descriptions.append(event.description)
                 labels.append(event.label)
 
